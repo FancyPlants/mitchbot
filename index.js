@@ -1,8 +1,13 @@
 const Discord = require('discord.js');
 const auth = require('./auth');
 const path = require('path');
+const fs = require('fs');
 
 const bot = new Discord.Client();
+
+const logFile = fs.createWriteStream('./uses.log', {
+  flags: 'a',
+});
 
 bot.on('message', async (msg) => {
   // then this is just a normal message, don't do anything
@@ -27,6 +32,16 @@ bot.on('message', async (msg) => {
   dispatcher.on('end', () => {
     voiceChannel.leave();
   });
+
+  const { id, nickname, displayName } = msg.member;
+
+  logFile.write(`[${new Date().toISOString()}] ${cmd} - ${id}:${nickname}:${displayName}\n`);
+});
+
+// ensure closing file
+process.on('exit', () => {
+  logFile.close();
 });
 
 bot.login(auth.token);
+
