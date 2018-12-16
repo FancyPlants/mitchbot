@@ -1,0 +1,4 @@
+node_modules/
+cash/
+auth.json
+.DS_Store
