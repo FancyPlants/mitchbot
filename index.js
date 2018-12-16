@@ -31,11 +31,9 @@ bot.on('message', async (msg) => {
 
   dispatcher.on('end', () => {
     voiceChannel.leave();
+    const { id, nickname, displayName } = msg.member;
+    logFile.write(`[${new Date().toISOString()}] ${cmd} - ${id}:${nickname}:${displayName}\n`);
   });
-
-  const { id, nickname, displayName } = msg.member;
-
-  logFile.write(`[${new Date().toISOString()}] ${cmd} - ${id}:${nickname}:${displayName}\n`);
 });
 
 // ensure closing file
