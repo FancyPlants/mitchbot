@@ -15,15 +15,22 @@ bot.on('message', async (msg) => {
     return;
   }
 
-  if (!msg.member.voiceChannel) {
+  if (msg.content === '!mitchhelp') {
+    let helpString = '';
+    const files = await fs.readdir(path.join(__dirname, 'cash'));
+
+    return;
+  }
+
+  const { voiceChannel } = msg.member;
+
+  if (!voiceChannel) {
     return;
   }
 
   // take out exclamation mark
   const cmd = msg.content.substring(7);
 
-
-  const { voiceChannel } = msg.member;
   const conn = await voiceChannel.join();
   const pathName = path.join(__dirname, `cash/${cmd}.mp3`);
 
